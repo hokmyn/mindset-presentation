@@ -444,7 +444,7 @@ Attackers can detect broken authentication using manual means and exploit them u
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Insecure Deserialization</h2>
-						<p>Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</p>
+						<p>Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</p>
 					</section>
 					<section data-transition="convex">
 						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
@@ -498,7 +498,7 @@ Attackers can detect broken authentication using manual means and exploit them u
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Using Components with Known Vulnerabilities</h2>
-						<p>Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</p>
+						<p>Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</p>
 					</section>
 					<section data-transition="convex">
 						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
