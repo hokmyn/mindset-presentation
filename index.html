@@ -61,60 +61,23 @@
 					<p>The OWASP Top 10 is a standard awareness document for developers and web application security.</p>
 					<p>It represents a broad consensus about the most critical security risks to web applications.</p>
 				</section>
-				<section data-transition="concave">
-					<h2>OWASP Top Ten</h2>
-					<p>Globally recognized by developers as the first step towards more secure coding.</p>
-					<p>Companies should adopt this document and start the process of ensuring that their web applications minimize these risks.</p>
-					<p>Using the OWASP Top 10 is perhaps the most effective first step towards changing the software development culture within your organization into one that produces more secure code.</p>
-				</section>
 				<section data-transition="zoom">
 					<h1 class="owasp-subtitle">Top 10 Web Application Security Risks</h1>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Injection</h2>
-						<p>Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query.</p>
-						<p>The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.</p>
+						<img src="./images/injection.jpg" alt="injection">
+						<p class="paragraph-smaller">Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization</p>
 					</section>
 					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Almost any source of data can be an injection vector, environment variables, parameters, external and internal web services, and all types of users. Injection flaws occur when an attacker can send hostile data to an interpreter.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>Injection flaws are very prevalent, particularly in legacy code. Injection vulnerabilities are often found in SQL, LDAP, XPath, or NoSQL queries, OS commands, XML parsers, SMTP headers, expression languages, and ORM queries.
-Injection flaws are easy to discover when examining code. Scanners and fuzzers can help attackers find injection flaws.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>Injection can result in data loss, corruption, or disclosure to unauthorized parties, loss of accountability, or denial of access. Injection can sometimes lead to complete host takeover.
-The business impact depends on the needs of the application and data.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Is the Application Vulnerable?</h2>
-						<span>An application is vulnerable to attack when:</span>
-						<ul class="injection-list">
-							<li>User-supplied data is not validated, filtered, or sanitized by the application</li>
-							<li>Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter</li>
-							<li>Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records</li>
-							<li>Hostile data is directly used or concatenated, such that the SQL or command contains both structure and hostile data in dynamic queries, commands, or stored procedures</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<span>Preventing injection requires keeping data separate from commands and queries.</span>
-						<ul class="injection-list">
-							<li>The preferred option is to use a safe API, which avoids the use of the interpreter entirely or provides a parameterized interface, or migrate to use Object Relational Mapping Tools</li>
-							<li>Use positive or “whitelist” server-side input validation. This is not a complete defense as many applications require special characters, such as text areas or APIs for mobile applications</li>
-							<li>For any residual dynamic queries, escape special characters using the specific escape syntax for that interpreter.</li>
-							<li>Use LIMIT and other SQL controls within queries to prevent mass disclosure of records in case of SQL injection</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
+						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
 						<p class="paragraph-smaller"><strong class="strong">Scenario #1:</strong> An application uses untrusted data in the construction of the following vulnerable SQL call:</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>String query = "SELECT * FROM accounts<br>WHERE custID='" + request.getParameter("id") + "'";</code>
 						</pre>
+					</section>
+					<section data-transition="convex">
 						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Similarly, an application’s blind trust in frameworks may result in queries that are still vulnerable, (e.g. Hibernate Query Language (HQL)):</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>Query HQLQuery = session.createQuery("FROM accounts<br>WHERE custID='" + request.getParameter("id") + "'");</code>
@@ -122,145 +85,42 @@ The business impact depends on the needs of the application and data.</p>
 						<p class="paragraph-smaller">In both cases, the attacker modifies the ‘id’ parameter value in their browser to send: ‘ or ‘1’=’1. For example:</p>
 						<pre><code class="injection-code" data-trim data-noescape>http://example.com/app/accountView?id=' or '1'='1</code></pre>
 					</section>
+					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Broken Authentication</h2>
-						<p> Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Attackers have access to hundreds of millions of valid username and password combinations for credential stuffing, default administrative account lists, automated brute force, and dictionary attack tools. Session management attacks are well understood, particularly in relation to unexpired session tokens.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>The prevalence of broken authentication is widespread due to the design and implementation of most identity and access controls. Session management is the bedrock of authentication and access controls, and is present in all stateful applications.
-Attackers can detect broken authentication using manual means and exploit them using automated tools with password lists and dictionary attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>Attackers have to gain access to only a few accounts, or just one admin account to compromise the system. Depending on the domain of the application, this may allow money laundering, social security fraud, and identity theft, or disclose legally protected highly sensitive information.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">Confirmation of the user’s identity, authentication, and session management are critical to protect against authentication-related attacks. There may be authentication weaknesses if the application:</p>
-						<ul class="injection-list">
-							<li>Permits automated attacks such as credential stuffing, where the attacker has a list of valid usernames and passwords</li>
-							<li>Permits brute force or other automated attacks</li>
-							<li>Permits default, weak, or well-known passwords, such as “Password1” or “admin/admin“</li>
-							<li>Uses weak or ineffective credential recovery and forgot-password processes, such as “knowledge-based answers”, which cannot be made safe</li>
-							<li>Uses plain text, encrypted, or weakly hashed passwords</li>
-							<li>Does not rotate Session IDs after successful login</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<ul class="injection-list">
-							<li>Where possible, implement multi-factor authentication to prevent automated, credential stuffing, brute force, and stolen credential re-use attacks</li>
-							<li>Do not ship or deploy with any default credentials, particularly for admin users</li>
-							<li>Implement weak-password checks, such as testing new or changed passwords against a list of the top 10000 worst passwords</li>
-							<li>Align password length, complexity and rotation policies with NIST 800-63 B’s guidelines in section 5.1.1 for Memorized Secrets or other modern, evidence based password policies</li>
-							<li>Ensure registration, credential recovery, and API pathways are hardened against account enumeration attacks by using the same messages for all outcomes</li>
-							<li>Limit or increasingly delay failed login attempts. Log all failures and alert administrators when credential stuffing, brute force, or other attacks are detected</li>
-							<li>Use a server-side, secure, built-in session manager that generates a new random session ID with high entropy after login. Session IDs should not be in the URL, be securely stored and invalidated after logout, idle, and absolute timeouts</li>
-						</ul>
+						<img src="./images/broken_auth.jpg" alt="broken authentication">
+						<p class="paragraph-smaller"> Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Credential stuffing, the use of lists of known passwords, is a common attack. If an application does not implement automated threat or credential stuffing protections, the application can be used as a password oracle to determine if the credentials are valid</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Most authentication attacks occur due to the continued use of passwords as a sole factor. Once considered best practices, password rotation and complexity requirements are viewed as encouraging users to use, and reuse, weak passwords. Organizations are recommended to stop these practices per NIST 800-63 and use multi-factor authentication</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> Application session timeouts aren’t set properly. A user uses a public computer to access an application. Instead of selecting “logout” the user simply closes the browser tab and walks away. An attacker uses the same browser an hour later, and the user is still authenticated.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Credential stuffing, the use of lists of known passwords, is a common attack.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Most authentication attacks occur due to the continued use of passwords as a sole factor. Once considered best practices, password rotation and complexity requirements are viewed as encouraging users to use, and reuse, weak passwords.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> Application session timeouts aren’t set properly.</p>
 					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Sensitive Data Exposure</h2>
-						<p>Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and PII. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes.</p>
-						<p>Sensitive data may be compromised without extra protection, such as encryption at rest or in transit, and requires special precautions when exchanged with the browser.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Rather than directly attacking crypto, attackers steal keys, execute man-in-the-middle attacks, or steal clear text data off the server, while in transit, or from the user’s client, e.g. browser. A manual attack is generally required. Previously retrieved password databases could be brute forced by Graphics Processing Units (GPUs).</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>Over the last few years, this has been the most common impactful attack. The most common flaw is simply not encrypting sensitive data. When crypto is employed, weak key generation and management, and weak algorithm, protocol and cipher usage is common, particularly for weak password hashing storage techniques. For data in transit, server-side weaknesses are mainly easy to detect, but hard for data at rest.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>Failure frequently compromises all data that should have been protected. Typically, this information includes sensitive personal information (PII) data such as health records, credentials, personal data, and credit cards, which often require protection as defined by laws or regulations such as the EU GDPR or local privacy laws.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">The first thing is to determine the protection needs of data in transit and at rest. For example, passwords, credit card numbers, health records, personal information and business secrets require extra protection, particularly if that data falls under privacy laws, e.g. EU’s General Data Protection Regulation (GDPR), or regulations, e.g. financial data protection such as PCI Data Security Standard (PCI DSS). For all such data:</p>
-						<ul class="injection-list">
-							<li>Is any data transmitted in clear text? This concerns protocols such as HTTP, SMTP, and FTP. External internet traffic is especially dangerous. Verify all internal traffic e.g. between load balancers, web servers, or back-end systems</li>
-							<li>Are any old or weak cryptographic algorithms used either by default or in older code?</li>
-							<li>Are default crypto keys in use, weak crypto keys generated or re-used, or is proper key management or rotation missing?</li>
-							<li>Is encryption not enforced, e.g. are any user agent (browser) security directives or headers missing?</li>
-							<li>Does the user agent (e.g. app, mail client) not verify if the received server certificate is valid?</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">Do the following, at a minimum, and consult the references:</p>
-						<ul class="injection-list">
-							<li>Classify data processed, stored or transmitted by an application. Identify which data is sensitive according to privacy laws, regulatory requirements, or business needs</li>
-							<li>Apply controls as per the classification</li>
-							<li>Don’t store sensitive data unnecessarily. Discard it as soon as possible or use PCI DSS compliant tokenization or even truncation. Data that is not retained cannot be stolen</li>
-							<li>Make sure to encrypt all sensitive data at rest</li>
-							<li>Ensure up-to-date and strong standard algorithms, protocols, and keys are in place; use proper key management</li>
-							<li>Encrypt all data in transit with secure protocols such as TLS with perfect forward secrecy (PFS) ciphers, cipher prioritization by the server, and secure parameters. Enforce encryption using directives like HTTP Strict Transport Security (HSTS)</li>
-							<li>Disable caching for response that contain sensitive data</li>
-						</ul>
+						<img src="./images/sensative_data.jpg" alt="sensitive data">
+						<p class="paragraph-smaller">Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and personal data. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>An application encrypts credit card numbers in a database using automatic database encryption. However, this data is automatically decrypted when retrieved, allowing a SQL injection flaw to retrieve credit card numbers in clear text.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A site doesn’t use or enforce TLS for all pages or supports weak encryption. An attacker monitors network traffic, downgrades connections from HTTPS to HTTP, intercepts requests, and steals the user’s session cookie. The attacker then replays this cookie and hijacks the user’s (authenticated) session, accessing or modifying the user’s private data.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> The password database uses unsalted or simple hashes to store everyone’s passwords. A file upload flaw allows an attacker to retrieve the password database. All the unsalted hashes can be exposed with a rainbow table of pre-calculated hashes. Hashes generated by simple or fast hash functions may be cracked by GPUs, even if they were salted.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>An application encrypts credit card numbers in a database using automatic database encryption. </p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A site doesn’t use or enforce TLS for all pages or supports weak encryption.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> The password database uses unsalted or simple hashes to store everyone’s passwords.</p>
 					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">XML External Entities (XXE)</h2>
-						<p>Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Attackers can exploit vulnerable XML processors if they can upload XML or include hostile content in an XML document, exploiting vulnerable code, dependencies or integrations.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>By default, many older XML processors allow specification of an external entity, a URI that is dereferenced and evaluated during XML processing. SAST tools can discover this issue by inspecting dependencies and configuration. DAST tools require additional manual steps to detect and exploit this issue. Manual testers need to be trained in how to test for XXE, as it not commonly tested as of 2017.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>These flaws can be used to extract data, execute a remote request from the server, scan internal systems, perform a denial-of-service attack, as well as execute other attacks. The business impact depends on the protection needs of all affected application and data.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">Applications and in particular XML-based web services or downstream integrations might be vulnerable to attack if:</p>
-						<ul class="injection-list">
-							<li>The application accepts XML directly or XML uploads, especially from untrusted sources, or inserts untrusted data into XML documents, which is then parsed by an XML processor.</li>
-							<li>Any of the XML processors in the application or SOAP based web services has document type definitions (DTDs) enabled. As the exact mechanism for disabling DTD processing varies by processor, it is good practice to consult a reference such as the OWASP Cheat Sheet ‘XXE Prevention’.</li>
-							<li>If the application uses SAML for identity processing within federated security or single sign on (SSO) purposes. SAML uses XML for identity assertions, and may be vulnerable.</li>
-							<li>If the application uses SOAP prior to version 1.2, it is likely susceptible to XXE attacks if XML entities are being passed to the SOAP framework. Being vulnerable to XXE attacks likely means that the application is vulnerable to denial of service attacks including the Billion Laughs attack</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">Developer training is essential to identify and mitigate XXE. Besides that, preventing XXE requires:</p>
-						<ul class="injection-list">
-							<li>Whenever possible, use less complex data formats such as JSON, and avoiding serialization of sensitive data.</li>
-							<li>Patch or upgrade all XML processors and libraries in use by the application or on the underlying operating system. Use dependency checkers. Update SOAP to SOAP 1.2 or higher.</li>
-							<li>Implement positive (“whitelisting”) server-side input validation, filtering, or sanitization to prevent hostile data within XML documents, headers, or nodes.</li>
-							<li>Verify that XML or XSL file upload functionality validates incoming XML using XSD validation or similar.</li>
-						</ul>
+						<img src="./images/XXE.jpg" alt="xxe">
+						<p class="paragraph-smaller">Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smallest">Numerous public XXE issues have been discovered, including attacking embedded devices. XXE occurs in a lot of unexpected places, including deeply nested dependencies. The easiest way is to upload a malicious XML file, if accepted:</p>
 						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>The attacker attempts to extract data from the server:</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
@@ -282,148 +142,47 @@ Attackers can detect broken authentication using manual means and exploit them u
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Broken Access Control</h2>
-						<p>Restrictions on what authenticated users are allowed to do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other users’ accounts, view sensitive files, modify other users’ data, change access rights, etc.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Exploitation of access control is a core skill of attackers. SAST and DAST tools can detect the absence of access control but cannot verify if it is functional when it is present. Access control is detectable using manual means, or possibly through automation for the absence of access controls in certain frameworks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>Access control weaknesses are common due to the lack of automated detection, and lack of effective functional testing by application developers. Access control detection is not typically amenable to automated static or dynamic testing. Manual testing is the best way to detect missing or ineffective access control, including HTTP method (GET vs PUT, etc), controller, direct object references, etc.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>The technical impact is attackers acting as users or administrators, or users using privileged functions, or creating, accessing, updating or deleting every record. The business impact depends on the protection needs of the application and data.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">Access control enforces policy such that users cannot act outside of their intended permissions. Failures typically lead to unauthorized information disclosure, modification or destruction of all data, or performing a business function outside of the limits of the user. Common access control vulnerabilities include:</p>
-						<ul class="injection-list">
-							<li>Bypassing access control checks by modifying the URL, internal application state, or the HTML page, or simply using a custom API attack tool.</li>
-							<li>Allowing the primary key to be changed to another’s users record, permitting viewing or editing someone else’s account.</li>
-							<li>Elevation of privilege. Acting as a user without being logged in, or acting as an admin when logged in as a user.</li>
-							<li>Metadata manipulation, such as replaying or tampering with a JSON Web Token (JWT) access control token or a cookie or hidden field manipulated to elevate privileges, or abusing JWT invalidation.</li>
-							<li>CORS misconfiguration allows unauthorized API access.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">How to Prevent</h2>
-						<p class="paragraph-smaller">Access control is only effective if enforced in trusted server-side code or server-less API, where the attacker cannot modify the access control check or metadata.</p>
-						<ul class="injection-list">
-							<li>With the exception of public resources, deny by default.</li>
-							<li>Implement access control mechanisms once and re-use them throughout the application, including minimizing CORS usage.</li>
-							<li>Model access controls should enforce record ownership, rather than accepting that the user can create, read, update, or delete any record.</li>
-							<li>Unique application business limit requirements should be enforced by domain models.</li>
-							<li>Disable web server directory listing and ensure file metadata (e.g. .git) and backup files are not present within web roots.</li>
-						</ul>
+						<img src="./images/broken_access.jpg" alt="broken access">
+						<p class="paragraph-smaller">Restrictions on what authenticated users are allowed to do are often not properly enforced.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>The application uses unverified data in a SQL call that is accessing account information:</p>
+						<p><strong class="strong">Scenario #1: </strong>The application uses unverified data in a SQL call that is accessing account information:</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
 								pstmt.setString(1, request.getParameter("acct"));
 								ResultSet results = pstmt.executeQuery( );
 							</code>
 						</pre>
-						<p class="paragraph-smallest">An attacker simply modifies the ‘acct’ parameter in the browser to send whatever account number they want. If not properly verified, the attacker can access any user’s account.</p>
+						<p>An attacker simply modifies the ‘acct’ parameter in the browser to send whatever account number they want. If not properly verified, the attacker can access any user’s account.</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
 								http://example.com/app/accountInfo?acct=notmyacct
 							</code>
 						</pre>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> An attacker simply force browses to target URLs. Admin rights are required for access to the admin page.</p>
+					</section>
+					<section data-transition="convex">
+						<p><strong class="strong">Scenario #2:</strong> An attacker simply force browses to target URLs. Admin rights are required for access to the admin page.</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
 								http://example.com/app/getappInfo
 								http://example.com/app/admin_getappInfo
 							</code>
 						</pre>
-						<p class="paragraph-smallest">If an unauthenticated user can access either page, it’s a flaw. If a non-admin can access the admin page, this is a flaw.</p>
+					</section>
 					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Security misconfiguration</h2>
-						<p>Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information. Not only must all operating systems, frameworks, libraries, and applications be securely configured, but they must be patched/upgraded in a timely fashion.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Attackers will often attempt to exploit unpatched flaws or access default accounts, unused pages, unprotected files and directories, etc to gain unauthorized access or knowledge of the system.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>Security misconfiguration can happen at any level of an application stack, including the network services, platform, web server, application server, database, frameworks, custom code, and pre-installed virtual machines, containers, or storage. Automated scanners are useful for detecting misconfigurations, use of default accounts or configurations, unnecessary services, legacy options, etc.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>Such flaws frequently give attackers unauthorized access to some system data or functionality. Occasionally, such flaws result in a complete system compromise. The business impact depends on the protection needs of the application and data.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">The application might be vulnerable if the application is:</p>
-						<ul class="injection-list">
-							<li>Missing appropriate security hardening across any part of the application stack, or improperly configured permissions on cloud services.</li>
-							<li>Unnecessary features are enabled or installed (e.g. unnecessary ports, services, pages, accounts, or privileges).</li>
-							<li>Default accounts and their passwords still enabled and unchanged.</li>
-							<li>Error handling reveals stack traces or other overly informative error messages to users.</li>
-							<li>For upgraded systems, latest security features are disabled or not configured securely.</li>
-							<li>The server does not send security headers or directives or they are not set to secure values.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">Secure installation processes should be implemented, including:</p>
-						<ul class="injection-list">
-							<li>A repeatable hardening process that makes it fast and easy to deploy another environment that is properly locked down. Development, QA, and production environments should all be configured identically, with different credentials used in each environment. This process should be automated to minimize the effort required to setup a new secure environment.</li>
-							<li>A minimal platform without any unnecessary features, components, documentation, and samples. Remove or do not install unused features and frameworks.</li>
-							<li>A task to review and update the configurations appropriate to all security notes, updates and patches as part of the patch management process (see A9:2017-Using Components with Known Vulnerabilities). In particular, review cloud storage permissions</li>
-							<li>Sending security directives to clients.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>The application server comes with sample applications that are not removed from the production server. These sample applications have known security flaws attackers use to compromise the server. If one of these applications is the admin console, and default accounts weren’t changed the attacker logs in with default passwords and takes over.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Directory listing is not disabled on the server. An attacker discovers they can simply list directories. The attacker finds and downloads the compiled Java classes, which they decompile and reverse engineer to view the code. The attacker then finds a serious access control flaw in the application.</p>
+						<p>Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information.</p>
 					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Cross-Site Scripting (XSS)</h2>
-						<p>XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Automated tools can detect and exploit all three forms of XSS, and there are freely available exploitation frameworks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>XSS is the second most prevalent issue in the OWASP Top 10, and is found in around two thirds of all applications. Automated tools can find some XSS problems automatically, particularly in mature technologies such as PHP, J2EE / JSP, and ASP.NET.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>The impact of XSS is moderate for reflected and DOM XSS, and severe for stored XSS, with remote code execution on the victim’s browser, such as stealing credentials, sessions, or delivering malware to the victim.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">There are three forms of XSS, usually targeting users’ browsers:</p>
-						<ul class="injection-list">
-							<li>Reflected XSS: The application or API includes unvalidated and unescaped user input as part of HTML output. A successful attack can allow the attacker to execute arbitrary HTML and JavaScript in the victim’s browser. Typically the user will need to interact with some malicious link that points to an attacker-controlled page, such as malicious watering hole websites, advertisements, or similar.</li>
-							<li>Stored XSS: The application or API stores unsanitized user input that is viewed at a later time by another user or an administrator. Stored XSS is often considered a high or critical risk.</li>
-							<li>DOM XSS: JavaScript frameworks, single-page applications, and APIs that dynamically include attacker-controllable data to a page are vulnerable to DOM XSS. Ideally, the application would not send attacker-controllable data to unsafe JavaScript APIs.</li>
-						</ul>
-						<p class="paragraph-smallest">Typical XSS attacks include session stealing, account takeover, MFA bypass, DOM node replacement or defacement (such as trojan login panels), attacks against the user’s browser such as malicious software downloads, key logging, and other client-side attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">Preventing XSS requires separation of untrusted data from active browser content. This can be achieved by:</p>
-						<ul class="injection-list">
-							<li>Using frameworks that automatically escape XSS by design, such as the latest Ruby on Rails, React JS. Learn the limitations of each framework’s XSS protection and appropriately handle the use cases which are not covered.</li>
-							<li>Escaping untrusted HTTP request data based on the context in the HTML output (body, attribute, JavaScript, CSS, or URL) will resolve Reflected and Stored XSS vulnerabilities. The OWASP Cheat Sheet ‘XSS Prevention’ has details on the required data escaping techniques.</li>
-							<li>Applying context-sensitive encoding when modifying the browser document on the client side acts against DOM XSS. When this cannot be avoided, similar context sensitive escaping techniques can be applied to browser APIs as described in the OWASP Cheat Sheet ‘DOM based XSS Prevention’.</li>
-							<li>Enabling a Content Security Policy (CSP) as a defense-in-depth mitigating control against XSS. It is effective if no other vulnerabilities exist that would allow placing malicious code via local file includes (e.g. path traversal overwrites or vulnerable libraries from permitted content delivery networks).</li>
-						</ul>
+						<img src="./images/xss.jpg" alt="xss">
+						<p class="paragraph-smaller">XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
@@ -444,49 +203,20 @@ Attackers can detect broken authentication using manual means and exploit them u
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Insecure Deserialization</h2>
-						<p>Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Exploitation of deserialization is somewhat difficult, as off the shelf exploits rarely work without changes or tweaks to the underlying exploit code.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>This issue is included in the Top 10 based on an industry survey and not on quantifiable data. Some tools can discover deserialization flaws, but human assistance is frequently needed to validate the problem. It is expected that prevalence data for deserialization flaws will increase as tooling is developed to help identify and address it.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>The impact of deserialization flaws cannot be overstated. These flaws can lead to remote code execution attacks, one of the most serious attacks possible. The business impact depends on the protection needs of the application and data.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">Applications and APIs will be vulnerable if they deserialize hostile or tampered objects supplied by an attacker. This can result in two primary types of attacks:</p>
-						<ul class="injection-list">
-							<li>Object and data structure related attacks where the attacker modifies application logic or achieves arbitrary remote code execution if there are classes available to the application that can change behavior during or after deserialization.</li>
-							<li>Typical data tampering attacks such as access-control-related attacks where existing data structures are used but the content is changed.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">The only safe architectural pattern is not to accept serialized objects from untrusted sources or to use serialization mediums that only permit primitive data types. If that is not possible, consider one of more of the following:</p>
-						<ul class="injection-list">
-							<li>Implementing integrity checks such as digital signatures on any serialized objects to prevent hostile object creation or data tampering.</li>
-							<li>Enforcing strict type constraints during deserialization before object creation as the code typically expects a definable set of classes. Bypasses to this technique have been demonstrated, so reliance solely on this is not advisable.</li>
-							<li>Isolating and running code that deserializes in low privilege environments when possible.</li>
-							<li>Log deserialization exceptions and failures, such as where the incoming type is not the expected type, or the deserialization throws exceptions.</li>
-						</ul>
+						<img src="./images/serialization.jpg" alt="insecure serialization">
+						<p class="paragraph-smaller">Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>A React application calls a set of Spring Boot microservices. Being functional programmers, they tried to ensure that their code is immutable. The solution they came up with is serializing user state and passing it back and forth with each request. An attacker notices the “R00” Java object signature, and uses the Java Serial Killer tool to gain remote code execution on the application server.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A PHP forum uses PHP object serialization to save a “super” cookie, containing the user’s user ID, role, password hash, and other state:</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>A React application calls a set of Spring Boot microservices. Being functional programmers, they tried to ensure that their code is immutable.</p>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A PHP forum uses PHP object serialization to save a “super” cookie, containing the user’s ID, role, password hash, and other state:</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
 								a:4:{i:0;i:132;i:1;s:7:"Mallory";i:2;s:4:"user";
 								i:3;s:32:"b6a8b3bea87fe0e05022f8f3c88bc960";}
 							</code>
 						</pre>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> An attacker changes the serialized object to give themselves admin privileges:</p>
+						<p class="paragraph-smaller">An attacker changes the serialized object to give themselves admin privileges:</p>
 						<pre class="injection-pre">
 							<code class="injection-code" data-trim data-noescape>
 								a:4:{i:0;i:1;i:1;s:5:"Alice";i:2;s:5:"admin";
@@ -498,87 +228,18 @@ Attackers can detect broken authentication using manual means and exploit them u
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Using Components with Known Vulnerabilities</h2>
-						<p>Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications and APIs using components with known vulnerabilities may undermine application defenses and enable various attacks and impacts.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>While it is easy to find already-written exploits for many known vulnerabilities, other vulnerabilities require concentrated effort to develop a custom exploit.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>Prevalence of this issue is very widespread. Component-heavy development patterns can lead to development teams not even understanding which components they use in their application or API, much less keeping them up to date. Some scanners such as retire.js help in detection, but determining exploitability requires additional effort.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>While some known vulnerabilities lead to only minor impacts, some of the largest breaches to date have relied on exploiting known vulnerabilities in components. Depending on the assets you are protecting, perhaps this risk should be at the top of the list.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">You are likely vulnerable:</p>
-						<ul class="injection-list">
-							<li>If you do not know the versions of all components you use (both client-side and server-side). This includes components you directly use as well as nested dependencies.</li>
-							<li>If software is vulnerable, unsupported, or out of date. This includes the OS, web/application server, database management system (DBMS), applications, APIs and all components, runtime environments, and libraries.</li>
-							<li>If you do not scan for vulnerabilities regularly and subscribe to security bulletins related to the components you use.</li>
-							<li>If you do not fix or upgrade the underlying platform, frameworks, and dependencies in a risk-based, timely fashion. This commonly happens in environments when patching is a monthly or quarterly task under change control, which leaves organizations open to many days or months of unnecessary exposure to fixed vulnerabilities.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">There should be a patch management process in place to:</p>
-						<ul class="injection-list">
-							<li>Remove unused dependencies, unnecessary features, components, files, and documentation.</li>
-							<li>Continuously inventory the versions of both client-side and server-side components (e.g. frameworks, libraries) and their dependencies using tools like versions, DependencyCheck, retire.js, etc. Continuously monitor sources like CVE and NVD for vulnerabilities in the components. Use software composition analysis tools to automate the process. Subscribe to email alerts for security vulnerabilities related to components you use.</li>
-							<li>Only obtain components from official sources over secure links. Prefer signed packages to reduce the chance of including a modified, malicious component.</li>
-						</ul>
+						<img src="./images/known_vulnerability.jpg" alt="known vulnerability">
+						<p class="paragraph-smaller">Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Components typically run with the same privileges as the application itself, so flaws in any component can result in serious impact. Such flaws can be accidental (e.g. coding error) or intentional (e.g. backdoor in component). Some example exploitable component vulnerabilities discovered are:</p>
-						<ul class="injection-list">
-							<li> CVE-2017-5638, a Struts 2 remote code execution vulnerability that enables execution of arbitrary code on the server, has been blamed for significant breaches.</li>
-							<li>While internet of things (IoT) are frequently difficult or impossible to patch, the importance of patching them can be great (e.g. biomedical devices).</li>
-						</ul>
+						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Components typically run with the same privileges as the application itself, so flaws in any component can result in serious impact. Such flaws can be accidental (e.g. coding error) or intentional (e.g. backdoor in component).</p>
 					</section>
 				</section>
 				<section data-transition="concave">
 					<section data-transition="convex">
 						<h2 class="risk-title">Insufficient Logging & Monitoring</h2>
-						<p>Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data. Most breach studies show time to detect a breach is over 200 days, typically detected by external parties rather than internal processes or monitoring.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Threat Agents / Attack Vectors</h2>
-						<p>Exploitation of insufficient logging and monitoring is the bedrock of nearly every major incident.
-Attackers rely on the lack of monitoring and timely response to achieve their goals without being detected.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Security Weakness</h2>
-						<p>This issue is included in the Top 10 based on an industry survey.
-One strategy for determining if you have sufficient monitoring is to examine the logs following penetration testing. The testers’ actions should be recorded sufficiently to understand what damages they may have inflicted.</p>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_danger">Impacts</h2>
-						<p>Most successful attacks start with vulnerability probing. Allowing such probes to continue can raise the likelihood of successful exploit to nearly 100%. In 2016, identifying a breach took an average of 191 days – plenty of time for damage to be inflicted.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Is the Application Vulnerable?</h3>
-						<p class="paragraph-smaller">Insufficient logging, detection, monitoring and active response occurs any time:</p>
-						<ul class="injection-list">
-							<li>Auditable events, such as logins, failed logins, and high-value transactions are not logged.</li>
-							<li>Warnings and errors generate no, inadequate, or unclear log messages.</li>
-							<li>Logs of applications and APIs are not monitored for suspicious activity.</li>
-							<li>Logs are only stored locally.</li>
-						</ul>
-					</section>
-					<section data-transition="convex">
-						<h2 class="risk-subtitle_safety">How to Prevent</h2>
-						<p class="paragraph-smaller">As per the risk of the data stored or processed by the application:</p>
-						<ul class="injection-list">
-							<li>Ensure all login, access control failures, and server-side input validation failures can be logged with sufficient user context to identify suspicious or malicious accounts, and held for sufficient time to allow delayed forensic analysis.</li>
-							<li>Ensure that logs are generated in a format that can be easily consumed by a centralized log management solutions.</li>
-							<li>Ensure high-value transactions have an audit trail with integrity controls to prevent tampering or deletion, such as append-only database tables or similar.</li>
-							<li>Establish effective monitoring and alerting such that suspicious activities are detected and responded to in a timely fashion.</li>
-						</ul>
-						<p class="paragraph-smallest">There are commercial and open source application protection frameworks such as OWASP AppSensor (old wiki), web application firewalls such as ModSecurity with the OWASP ModSecurity Core Rule Set, and log correlation software with custom dashboards and alerting.</p>
+						<p>Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data.</p>
 					</section>
 					<section data-transition="convex">
 						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
