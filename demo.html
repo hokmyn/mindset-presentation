@@ -127,35 +127,35 @@
         <section data-transition="convex">
           <p>Код для сайта будет выглядеть следующим образом:</p>
           <pre><code>
-	<html lang="en">
-	  <head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	    <title>Cat detection</title>
-	    <!-- импорт Tensorflow.js и модели MobileNet -->
-	    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
-	    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
-	  </head>
-	  <body>
-	    <!--внутри тега body у нас есть элемент изображения, который будет использоваться для прогнозов-->
-	    <img id="image" alt="cat laying down" src="cat.jpeg"/>
-	    <!--внутри тега script у нас есть JavaScript-код, загружающий предварительно обученную модель
-	     MobileNet и классифицирующий изображение, найденное в теге image. Он возвращает массив из
-	     трех прогнозов, которые упорядочены по степени вероятности-->
-            <script>
-	      const img = document.getElementById('image');
-	        const predictImage = async () => {
-		  console.log("Model loading...");
-		  const model = await mobilenet.load();
-		  console.log("Model is loaded!")
-		  const predictions = await model.classify(img);
-		  console.log('Predictions: ', predictions);
-	        }
-	      predictImage();
-            </script>
-	  </body>
-	</html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cat detection</title>
+    <!-- импорт Tensorflow.js и модели MobileNet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+  </head>
+  <body>
+    <!--внутри тега body у нас есть элемент изображения, который будет использоваться для прогнозов-->
+    <img id="image" alt="cat laying down" src="cat.jpeg"/>
+    <!--внутри тега script у нас есть JavaScript-код, загружающий предварительно обученную модель
+     MobileNet и классифицирующий изображение, найденное в теге image. Он возвращает массив из
+     трех прогнозов, которые упорядочены по степени вероятности-->
+    <script>
+      const img = document.getElementById('image');
+	const predictImage = async () => {
+	  console.log("Model loading...");
+	  const model = await mobilenet.load();
+	  console.log("Model is loaded!")
+	  const predictions = await model.classify(img);
+	  console.log('Predictions: ', predictions);
+	}
+      predictImage();
+    </script>
+  </body>
+</html>
 	</code></pre>
         </section>
         <section data-transition="concave" class="descr">
@@ -189,12 +189,12 @@
             (k-ближайших соседей):
           </p>
           <pre><code>
-	<!-- Загрузка TensorFlow.js -->
-	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-	<!-- Загрузка MobileNet -->
-	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
-	<!-- Загрузка KNN классификатора -->
-	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
+<!-- Загрузка TensorFlow.js -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<!-- Загрузка MobileNet -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+<!-- Загрузка KNN классификатора -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier"></script>
 	</code></pre>
           <p>
             Классификатор нужен потому что (вместо того, чтобы использовать
@@ -214,15 +214,15 @@
         <section data-transition="concave" class="descr">
           <p>В JavaScript файле установим несколько важных переменных</p>
           <pre><code>
-	// Количество классов для классификации
-	const NUM_CLASSES = 2;
-	// Метки классов
-	const classes = ["Left", "Right"];
-	// Размер веб-камеры. Должен быть 227.
-	const IMAGE_SIZE = 227;
-	// Значение K для KNN
-	const TOPK = 10;
-	const video = document.getElementById("webcam");
+// Количество классов для классификации
+const NUM_CLASSES = 2;
+// Метки классов
+const classes = ["Left", "Right"];
+// Размер веб-камеры. Должен быть 227.
+const IMAGE_SIZE = 227;
+// Значение K для KNN
+const TOPK = 10;
+const video = document.getElementById("webcam");
 	</code></pre>
           <p>
             В этом конкретном примере мы хотим иметь возможность
@@ -250,26 +250,26 @@
             форматировать и комбинировать их с модулем MobileNet:
           </p>
           <pre><code>
-	// Получение данных изображения из элемента видео
-	const image = tf.browser.fromPixels(video);
-	let logits;
-	// 'conv_preds' - активация логитов MobileNet.
-	const infer = () => this.mobilenetModule.infer(image, "conv_preds");
-	// Тренировка класса, если одна из кнопок нажата
-	if (this.training != -1) {
-	logits = infer();
-	// Добавление текущего изображения в классификатор
-	this.knn.addExample(logits, this.training);
-	}
+// Получение данных изображения из элемента видео
+const image = tf.browser.fromPixels(video);
+let logits;
+// 'conv_preds' - активация логитов MobileNet.
+const infer = () => this.mobilenetModule.infer(image, "conv_preds");
+// Тренировка класса, если одна из кнопок нажата
+if (this.training != -1) {
+logits = infer();
+// Добавление текущего изображения в классификатор
+this.knn.addExample(logits, this.training);
+}
 	</code></pre>
           <p>
             Cобрав несколько изображений с веб-камеры, можно проверить прогнозы
             с помощью следующего кода:
           </p>
           <pre><code>
-	logits = infer();
-	const res = await this.knn.predictClass(logits, TOPK);
-	const prediction = classes[res.classIndex];
+logits = infer();
+const res = await this.knn.predictClass(logits, TOPK);
+const prediction = classes[res.classIndex];
 	</code></pre>
         </section>
         <section data-transition="convex" class="descr">
