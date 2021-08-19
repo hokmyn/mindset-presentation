@@ -1,1 +1,1 @@
-Deploy: hokmyn.github.io
+Deploy: https://hokmyn.github.io/mindset-presentation/
